@@ -3,7 +3,7 @@ import serial
 
 ser = serial.Serial('/dev/ttyUSB0', 9600)
 
-while True:
+while:
     read_serial = ser.readline()
     print "Vazao ", read_serial
 
