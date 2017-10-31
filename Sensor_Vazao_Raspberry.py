@@ -3,30 +3,35 @@ import serial
 
 ser = serial.Serial('/dev/ttyUSB0', 9600)
 
-while:
+while True:
     read_serial = ser.readline()
-    print "Vazao ", read_serial
+
 
     if (read_serial.find("0.00") == -1):
 
         read_serial = read_serial.replace("\n", "")
-        db = MySQLdb.connect("localhost", "root", "senha", "instancia_db")
+
+
+        db = MySQLdb.connect("localhost", "root", "123", "gotadigital")
+
 
         cursor = db.cursor()
 
-        sql = "INSERT INTO tbvazao (vazao) VALUES ('%s')" % \
-              (read_serial)
+
+
+        sql = "INSERT INTO tbvazao (vazao, tbEndereco_idEndereco) VALUES ('%s', '%i')" % \
+              (read_serial, 1)
 
         try:
 
             cursor.execute(sql)
 
             db.commit()
-            print "Salvo"
-
+            print "Vazao Salva = ", read_serial
         except:
 
             db.rollback()
-            print "Nao Salvo"
+            print "Ocorreu um erro"
+
 
         db.close()
